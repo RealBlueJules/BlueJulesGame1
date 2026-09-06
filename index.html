@@ -195,7 +195,7 @@
     <!-- PANTALLA PRINCIPAL -->
     <div id="startScreen" class="overlay">
         <h1>BLUE JULES</h1>
-        <div class="subtitle">🐰 Una aventura llena de arroz, zanahorias y bañeras 🛁</div>
+        <div class="subtitle">🐰 Una aventura llena de arroz y bañeras 🛁</div>
 
         <button id="startButton">🎮 JUGAR</button>
 
@@ -216,17 +216,17 @@
 
             <div class="character" data-character="rabbit">
                 <div class="character-icon">🐰</div>
-                <div class="character-name">Conejito</div>
+                <div class="character-name">Bunny</div>
             </div>
 
             <div class="character" data-character="prince">
                 <div class="character-icon">🤴</div>
-                <div class="character-name">Príncipe</div>
+                <div class="character-name">Prince</div>
             </div>
 
             <div class="character" data-character="princess">
                 <div class="character-icon">👸</div>
-                <div class="character-name">Princesa</div>
+                <div class="character-name">Princess</div>
             </div>
 
         </div>
@@ -1025,7 +1025,7 @@ function drawPlatforms() {
 
     for (const p of platforms) {
 
-        ctx.fillStyle = "#4f8f3b";
+        ctx.fillStyle = "#F50303";
 
         ctx.fillRect(
             p.x,
@@ -1034,7 +1034,7 @@ function drawPlatforms() {
             p.h
         );
 
-        ctx.fillStyle = "#77c957";
+        ctx.fillStyle = "#0B5394";
 
         ctx.fillRect(
             p.x,
@@ -1051,7 +1051,7 @@ function drawPlatforms() {
 
 function drawBullets() {
     for (let b of bullets) {
-        drawEmoji("✨", b.x + b.width / 2, b.y + b.height / 2, 25);
+        drawEmoji("🍊", b.x + b.width / 2, b.y + b.height / 2, 25);
     }
 }
 
