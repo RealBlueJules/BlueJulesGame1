@@ -1,4 +1,5 @@
-<!DOCTYPE html>
+<!<!DOCTYPE html>
+
 <html lang="es">
 <head>
 <meta charset="UTF-8">
@@ -166,230 +167,103 @@
         opacity: 0.85;
         margin-top: 10px;
     }
-
-/* =========================================================
-   COMPATIBILIDAD PC + CELULAR — CAPA RESPONSIVE
-   No modifica la lógica ni las pantallas originales.
-========================================================= */
-
-html, body {
-    width: 100%;
-    min-height: 100%;
-}
-
-body {
-    overflow: hidden;
-    touch-action: manipulation;
-}
-
-#gameContainer {
-    width: min(800px, 95vw);
-}
-
-/* Controles móviles: ocultos en PC y fuera de la partida */
-#mobileControls {
-    display: none;
-    position: absolute;
-    inset: 0;
-    z-index: 30;
-    pointer-events: none;
-}
-
-#mobileControls .mobileGroup {
-    position: absolute;
-    bottom: 3%;
-    display: flex;
-    gap: 10px;
-    align-items: center;
-    pointer-events: none;
-}
-
-#mobileControls .mobileLeft {
-    left: 2.5%;
-}
-
-#mobileControls .mobileRight {
-    right: 2.5%;
-}
-
-#mobileControls button {
-    width: clamp(50px, 9vw, 70px);
-    height: clamp(50px, 9vw, 70px);
-    min-width: 50px;
-    min-height: 50px;
-    margin: 0;
-    padding: 0;
-    border-radius: 50%;
-    border: 2px solid rgba(255,255,255,.75);
-    background: rgba(0, 70, 150, .78);
-    color: white;
-    font-size: clamp(20px, 4vw, 30px);
-    box-shadow: 0 4px 0 rgba(0,0,0,.35);
-    pointer-events: auto;
-    touch-action: none;
-    -webkit-user-select: none;
-    user-select: none;
-    -webkit-tap-highlight-color: transparent;
-}
-
-#mobileControls button:active {
-    transform: scale(.94);
-    box-shadow: 0 2px 0 rgba(0,0,0,.35);
-}
-
-/* En móvil, el juego completo cabe dentro de la pantalla,
-   respetando siempre la proporción original 800x500. */
-@media (pointer: coarse), (max-width: 700px) {
-    body {
-        min-height: 100dvh;
-        height: 100dvh;
-        justify-content: center;
-        align-items: center;
-    }
-
-    #gameContainer {
-        width: min(
-            800px,
-            calc(100vw - 12px),
-            calc((100dvh - 12px) * 1.6)
-        );
-        max-width: none;
-    }
-
-    canvas {
-        width: 100%;
-        height: auto;
-    }
-
-    #mobileControls.mobileActive {
-        display: block;
-    }
-}
-
-/* En pantallas muy pequeñas, botones un poco más compactos */
-@media (max-width: 430px) {
-    #mobileControls .mobileGroup {
-        gap: 7px;
-        bottom: 2.5%;
-    }
-
-    #mobileControls button {
-        width: 52px;
-        height: 52px;
-        min-width: 52px;
-        min-height: 52px;
-        font-size: 22px;
-    }
-}
-
 </style>
+
 </head>
 
 <body>
 
 <div id="gameContainer">
 
-    <canvas id="gameCanvas" width="800" height="500"></canvas>
+<canvas id="gameCanvas" width="800" height="500"></canvas>
 
-    <!-- HUD -->
-    <div id="hud" class="hidden">
-        <div id="hudLeft">
-            <div class="hudBox">❤️ <span id="livesText">3</span></div>
-            <div class="hudBox">🍚 <span id="riceText">0</span></div>
-            <div class="hudBox">🥕 <span id="carrotText">0</span></div>
-        </div>
-
-        <div id="hudRight">
-            <div class="hudBox">⭐ <span id="scoreText">0</span></div>
-            <div class="hudBox">🏦 Nivel <span id="levelText">1</span></div>
-        </div>
+<!-- HUD -->
+<div id="hud" class="hidden">
+    <div id="hudLeft">
+        <div class="hudBox">❤️ <span id="livesText">3</span></div>
+        <div class="hudBox">🍚 <span id="riceText">0</span></div>
+        <div class="hudBox">🥕 <span id="carrotText">0</span></div>
     </div>
 
-    <!-- PANTALLA INICIO -->
-    <div id="startScreen" class="screen">
-        <h1>BLUE JULES</h1>
-        <p>Juego de Plataformas</p>
-        <p class="smallText">
-            Aventura, zanahorias, arroz y muchos enemigos.
-        </p>
-
-        <button id="startButton">🎮 JUGAR</button>
-
-        <p class="smallText">
-            Flechas / A-D = Mover &nbsp; | &nbsp;
-            W = Saltar &nbsp; | &nbsp;
-            ESPACIO = Disparar
-        </p>
+    <div id="hudRight">
+        <div class="hudBox">⭐ <span id="scoreText">0</span></div>
+        <div class="hudBox">🏦 Nivel <span id="levelText">1</span></div>
     </div>
+</div>
 
-    <!-- SELECCIÓN DE PERSONAJE -->
-    <div id="characterScreen" class="screen hidden">
-        <h2>Elige tu personaje</h2>
+<!-- PANTALLA INICIO -->
+<div id="startScreen" class="screen">
+    <h1>BLUE JULES</h1>
+    <p>Juego de Plataformas</p>
+    <p class="smallText">
+        Aventura, zanahorias, arroz y muchos enemigos.
+    </p>
 
-        <div id="characterOptions">
+    <button id="startButton">🎮 JUGAR</button>
 
-            <button class="characterButton" data-character="bunny">
-                <img src="bunny.png" alt="Conejito">
-                <div style="font-size:16px;"> Conejito</div>
-            </button>
+    <p class="smallText">
+        Flechas / A-D = Mover &nbsp; | &nbsp;
+        W = Saltar &nbsp; | &nbsp;
+        ESPACIO = Disparar
+    </p>
+</div>
 
-            <button class="characterButton" data-character="prince">
-                🤴
-                <div style="font-size:16px;">Príncipe</div>
-            </button>
+<!-- SELECCIÓN DE PERSONAJE -->
+<div id="characterScreen" class="screen hidden">
+    <h2>Elige tu personaje</h2>
 
-            <button class="characterButton" data-character="princess">
-                👸
-                <div style="font-size:16px;">Princesa</div>
-            </button>
+    <div id="characterOptions">
 
-        </div>
+        <button class="characterButton" data-character="bunny">
+            <img src="bunny.png" alt="Conejito">
+            <div style="font-size:16px;"> Conejito</div>
+        </button>
+
+        <button class="characterButton" data-character="prince">
+            🤴
+            <div style="font-size:16px;">Príncipe</div>
+        </button>
+
+        <button class="characterButton" data-character="princess">
+            👸
+            <div style="font-size:16px;">Princesa</div>
+        </button>
+
     </div>
+</div>
 
-    <!-- PANTALLA CONTINUAR -->
-    <div id="continueScreen" class="screen hidden">
-        <h2>¡Prepárate!</h2>
-        <p>Tu aventura está a punto de comenzar.</p>
-        <button id="continueButton">🚀 COMENZAR</button>
-    </div>
+<!-- PANTALLA CONTINUAR -->
+<div id="continueScreen" class="screen hidden">
+    <h2>¡Prepárate!</h2>
+    <p>Tu aventura está a punto de comenzar.</p>
+    <button id="continueButton">🚀 COMENZAR</button>
+</div>
 
-    <!-- GAME OVER -->
-    <div id="gameOverScreen" class="screen hidden">
-        <h2>💀 GAME OVER</h2>
-        <p>Te quedaste sin vidas.</p>
-        <button id="restartButton">🔄 REINTENTAR</button>
-        <button id="homeButton">🏠 INICIO</button>
-    </div>
+<!-- GAME OVER -->
+<div id="gameOverScreen" class="screen hidden">
+    <h2>💀 GAME OVER</h2>
+    <p>Te quedaste sin vidas.</p>
+    <button id="restartButton">🔄 REINTENTAR</button>
+    <button id="homeButton">🏠 INICIO</button>
+</div>
 
-    <!-- VICTORIA -->
-    <div id="victoryScreen" class="screen hidden">
-        <h2>🎉 ¡VICTORIA!</h2>
+<!-- VICTORIA -->
+<div id="victoryScreen" class="screen hidden">
+    <h2>🎉 ¡VICTORIA!</h2>
 
-        <video
-            id="winVideo"
-            src="justino win.mp4"
-            autoplay
-            playsinline
-        ></video>
+    <video
+        id="winVideo"
+        src="justino win.mp4"
+        autoplay
+        playsinline
+    ></video>
 
-        <p>¡Completaste el nivel!</p>
+    <p>¡Completaste el nivel!</p>
 
-        <button id="nextLevelButton">➡️ SIGUIENTE NIVEL</button>
-        <button id="victoryHomeButton">🏠 INICIO</button>
-    </div>
+    <button id="nextLevelButton">➡️ SIGUIENTE NIVEL</button>
+    <button id="victoryHomeButton">🏠 INICIO</button>
+</div>
 
-
-    <!-- CONTROLES TÁCTILES: solo aparecen durante la partida -->
-    <div id="mobileControls" aria-label="Controles táctiles">
-        <div class="mobileGroup mobileLeft">
-            <button id="mobileLeft" type="button" aria-label="Mover izquierda">◀</button>
-            <button id="mobileRight" type="button" aria-label="Mover derecha">▶</button>
-        </div>
-        <div class="mobileGroup mobileRight">
-            <button id="mobileJump" type="button" aria-label="Saltar">⬆</button>
-            <button id="mobileShoot" type="button" aria-label="Disparar">🍊</button>
-        </div>
-    </div>
 </div>
 
 <script>
@@ -1875,7 +1749,6 @@ loadLevel(0);
 
 showStartScreen();
 
-setMobileControlsVisible();
 gameLoop();
 
 </script>
