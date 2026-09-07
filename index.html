@@ -6,175 +6,183 @@
 <title>BLUE JULES - Juego de Plataformas</title>
 
 <style>
-    * {
-        box-sizing: border-box;
-        margin: 0;
-        padding: 0;
-    }
 
-    body {
-        background: linear-gradient(135deg, #071b3a, #0b4f8a, #071b3a);
-        color: white;
-        font-family: Arial, sans-serif;
-        min-height: 100vh;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-    }
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
 
-    #game-container {
-        position: relative;
-        width: 800px;
-        max-width: 95vw;
-    }
+body {
+    background: linear-gradient(135deg, #071b3a, #0b4f8a, #071b3a);
+    color: white;
+    font-family: Arial, sans-serif;
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
 
-    canvas {
-        width: 100%;
-        height: auto;
-        display: block;
-        background: #000;
-        border: 4px solid #ffffff;
-        border-radius: 15px;
-        box-shadow: 0 0 30px rgba(0, 0, 0, 0.5);
-    }
+#game-container {
+    position: relative;
+    width: 800px;
+    max-width: 95vw;
+}
 
-    #hud {
-        position: absolute;
-        top: 10px;
-        left: 10px;
-        right: 10px;
-        display: flex;
-        justify-content: space-between;
-        gap: 8px;
-        z-index: 5;
-        pointer-events: none;
-    }
+canvas {
+    width: 100%;
+    height: auto;
+    display: block;
+    background: #000;
+    border: 4px solid #ffffff;
+    border-radius: 15px;
+    box-shadow: 0 0 30px rgba(0, 0, 0, 0.5);
+}
 
-    .hud-box {
-        background: rgba(0, 0, 0, 0.65);
-        padding: 8px 12px;
-        border-radius: 10px;
-        font-weight: bold;
-        font-size: 14px;
-    }
+#hud {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    right: 10px;
+    display: flex;
+    justify-content: space-between;
+    gap: 8px;
+    z-index: 5;
+    pointer-events: none;
+}
 
-    .overlay {
-        position: absolute;
-        inset: 0;
-        background: rgba(0, 15, 40, 0.92);
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
-        text-align: center;
-        z-index: 10;
-        border-radius: 12px;
-        padding: 25px;
-    }
+.hud-box {
+    background: rgba(0, 0, 0, 0.65);
+    padding: 8px 12px;
+    border-radius: 10px;
+    font-weight: bold;
+    font-size: 14px;
+}
 
-    .hidden {
-        display: none;
-    }
+.overlay {
+    position: absolute;
+    inset: 0;
+    background: rgba(0, 15, 40, 0.92);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    z-index: 10;
+    border-radius: 12px;
+    padding: 25px;
+}
 
-    h1 {
-        font-size: 60px;
-        color: #ffffff;
-        text-shadow: 0 0 15px #38a8ff;
-        margin-bottom: 10px;
-    }
+.hidden {
+    display: none;
+}
 
-    h2 {
-        font-size: 30px;
-        margin-bottom: 25px;
-    }
+h1 {
+    font-size: 60px;
+    color: #ffffff;
+    text-shadow: 0 0 15px #38a8ff;
+    margin-bottom: 10px;
+}
 
-    .subtitle {
-        font-size: 18px;
-        margin-bottom: 30px;
-        color: #bde5ff;
-    }
+h2 {
+    font-size: 30px;
+    margin-bottom: 25px;
+}
 
-    button {
-        border: none;
-        border-radius: 12px;
-        padding: 14px 28px;
-        margin: 8px;
-        font-size: 18px;
-        font-weight: bold;
-        cursor: pointer;
-        color: white;
-        background: linear-gradient(135deg, #0878d1, #13a1ff);
-        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.35);
-        transition: 0.2s;
-    }
+.subtitle {
+    font-size: 18px;
+    margin-bottom: 30px;
+    color: #bde5ff;
+}
 
-    button:hover {
-        transform: scale(1.05);
-        box-shadow: 0 0 20px rgba(70, 190, 255, 0.7);
-    }
+button {
+    border: none;
+    border-radius: 12px;
+    padding: 14px 28px;
+    margin: 8px;
+    font-size: 18px;
+    font-weight: bold;
+    cursor: pointer;
+    color: white;
+    background: linear-gradient(135deg, #0878d1, #13a1ff);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.35);
+    transition: 0.2s;
+}
 
-    .characters {
-        display: flex;
-        justify-content: center;
-        gap: 20px;
-        flex-wrap: wrap;
-        margin-bottom: 20px;
-    }
+button:hover {
+    transform: scale(1.05);
+    box-shadow: 0 0 20px rgba(70, 190, 255, 0.7);
+}
 
-    .character {
-        width: 170px;
-        min-height: 180px;
-        background: rgba(255, 255, 255, 0.1);
-        border: 3px solid transparent;
-        border-radius: 18px;
-        padding: 15px;
-        cursor: pointer;
-        transition: 0.2s;
-    }
+button:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    transform: none;
+}
 
-    .character:hover {
-        transform: translateY(-8px);
-        border-color: #35b5ff;
-        background: rgba(255, 255, 255, 0.17);
-    }
+.characters {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    flex-wrap: wrap;
+    margin-bottom: 20px;
+}
 
-    .character.selected {
-        border-color: #ffd43b;
-        background: rgba(255, 212, 59, 0.18);
-        box-shadow: 0 0 20px rgba(255, 212, 59, 0.5);
-    }
+.character {
+    width: 170px;
+    min-height: 180px;
+    background: rgba(255, 255, 255, 0.1);
+    border: 3px solid transparent;
+    border-radius: 18px;
+    padding: 15px;
+    cursor: pointer;
+    transition: 0.2s;
+}
 
-    .character-icon {
-        font-size: 75px;
-        margin-bottom: 8px;
-    }
+.character:hover {
+    transform: translateY(-8px);
+    border-color: #35b5ff;
+    background: rgba(255, 255, 255, 0.17);
+}
 
-    .character-name {
-        font-size: 20px;
-        font-weight: bold;
-    }
+.character.selected {
+    border-color: #ffd43b;
+    background: rgba(255, 212, 59, 0.18);
+    box-shadow: 0 0 20px rgba(255, 212, 59, 0.5);
+}
 
-    .controls {
-        margin-top: 15px;
-        color: #bde5ff;
-        font-size: 14px;
-        line-height: 1.7;
-    }
+.character-icon {
+    font-size: 75px;
+    margin-bottom: 8px;
+}
 
-    #message {
-        margin-top: 10px;
-        font-size: 18px;
-        color: #ffe66d;
-        min-height: 25px;
-    }
+.character-name {
+    font-size: 20px;
+    font-weight: bold;
+}
 
-    .game-over-title {
-        color: #ff5c5c;
-    }
+.controls {
+    margin-top: 15px;
+    color: #bde5ff;
+    font-size: 14px;
+    line-height: 1.7;
+}
 
-    .win-title {
-        color: #65ff91;
-    }
+#message {
+    margin-top: 10px;
+    font-size: 18px;
+    color: #ffe66d;
+    min-height: 25px;
+}
+
+.game-over-title {
+    color: #ff5c5c;
+}
+
+.win-title {
+    color: #65ff91;
+}
+
 </style>
 </head>
 
@@ -182,87 +190,193 @@
 
 <div id="game-container">
 
+    <!-- HUD -->
     <div id="hud">
-        <div class="hud-box">❤️ Vidas: <span id="lives">3</span></div>
-        <div class="hud-box">🍚 Arroz: <span id="rice">0</span></div>
-        <div class="hud-box">🥕 Zanahorias: <span id="carrots">0</span></div>
-        <div class="hud-box">⭐ Puntos: <span id="score">0</span></div>
-        <div class="hud-box">🏦 Nivel <span id="level">1</span></div>
+
+        <div class="hud-box">
+            ❤️ Vidas: <span id="lives">3</span>
+        </div>
+
+        <div class="hud-box">
+            🍚 Arroz: <span id="rice">0</span>
+        </div>
+
+        <div class="hud-box">
+            🥕 Zanahorias: <span id="carrots">0</span>
+        </div>
+
+        <div class="hud-box">
+            ⭐ Puntos: <span id="score">0</span>
+        </div>
+
+        <div class="hud-box">
+            🏦 Nivel <span id="level">1</span>
+        </div>
+
     </div>
 
     <canvas id="gameCanvas" width="800" height="500"></canvas>
 
-    <!-- PANTALLA PRINCIPAL -->
-    <div id="startScreen" class="overlay">
-        <h1>BLUE JULES</h1>
-        <div class="subtitle">🐰 Una aventura llena de arroz y bañeras 🛁</div>
 
-        <button id="startButton">🎮 JUGAR</button>
+    <!-- =========================
+         PANTALLA PRINCIPAL
+    ========================= -->
+
+    <div id="startScreen" class="overlay">
+
+        <h1>BLUE JULES</h1>
+
+        <div class="subtitle">
+            🐰 Una aventura llena de arroz y bañeras 🛁
+        </div>
+
+        <button id="startButton">
+            🎮 JUGAR
+        </button>
 
         <div class="controls">
+
             ← → / A D = Mover<br>
             W = Saltar<br>
             ESPACIO = Disparar<br>
             R = Reiniciar nivel<br>
             I = Volver al inicio
+
         </div>
+
     </div>
 
-    <!-- SELECCIÓN DE PERSONAJE -->
+
+    <!-- =========================
+         SELECCIÓN DE PERSONAJE
+    ========================= -->
+
     <div id="characterScreen" class="overlay hidden">
-        <h2>✨ ELIGE TU PERSONAJE ✨</h2>
+
+        <h2>
+            ✨ ELIGE TU PERSONAJE ✨
+        </h2>
 
         <div class="characters">
 
             <div class="character" data-character="rabbit">
-                <div class="character-icon">🐰</div>
-                <div class="character-name">Bunny</div>
+
+                <div class="character-icon">
+                    🐰
+                </div>
+
+                <div class="character-name">
+                    Bunny
+                </div>
+
             </div>
+
 
             <div class="character" data-character="prince">
-                <div class="character-icon">🤴</div>
-                <div class="character-name">Prince</div>
+
+                <div class="character-icon">
+                    🤴
+                </div>
+
+                <div class="character-name">
+                    Prince
+                </div>
+
             </div>
 
+
             <div class="character" data-character="princess">
-                <div class="character-icon">👸</div>
-                <div class="character-name">Princess</div>
+
+                <div class="character-icon">
+                    👸
+                </div>
+
+                <div class="character-name">
+                    Princess
+                </div>
+
             </div>
 
         </div>
+
 
         <div id="selectedCharacter">
             Elige un personaje
         </div>
 
+
         <button id="continueButton" disabled>
             ▶️ COMENZAR AVENTURA
         </button>
+
     </div>
 
-    <!-- GAME OVER -->
+
+    <!-- =========================
+         GAME OVER
+    ========================= -->
+
     <div id="gameOverScreen" class="overlay hidden">
-        <h1 class="game-over-title">💀 GAME OVER</h1>
+
+        <h1 class="game-over-title">
+            💀 GAME OVER
+        </h1>
+
         <p id="finalScore"></p>
-        <button id="restartButton">🔄 REINTENTAR</button>
-        <button id="homeButton">🏠 INICIO</button>
+
+        <button id="restartButton">
+            🔄 REINTENTAR
+        </button>
+
+        <button id="homeButton">
+            🏠 INICIO
+        </button>
+
     </div>
 
-    <!-- VICTORIA -->
+
+    <!-- =========================
+         VICTORIA
+    ========================= -->
+
     <div id="winScreen" class="overlay hidden">
-        <h1 class="win-title">🏆 ¡GANASTE!</h1>
-        
-        <!-- VIDEO DE VICTORIA -->
-        <video id="winVideo" src="justino win.mp4" width="400" style="border-radius: 12px; margin-bottom: 20px; box-shadow: 0 0 20px rgba(101, 255, 145, 0.4);"></video>
-        
+
+        <h1 class="win-title">
+            🏆 ¡GANASTE!
+        </h1>
+
+        <video
+            id="winVideo"
+            src="justino win.mp4"
+            width="400"
+            controls
+            style="
+                border-radius: 12px;
+                margin-bottom: 20px;
+                box-shadow: 0 0 20px rgba(101, 255, 145, 0.4);
+            ">
+        </video>
+
         <p id="winScore"></p>
-        <button id="nextLevelButton">➡️ SIGUIENTE NIVEL</button>
-        <button id="winHomeButton">🏠 INICIO</button>
+
+        <button id="nextLevelButton">
+            ➡️ SIGUIENTE NIVEL
+        </button>
+
+        <button id="winHomeButton">
+            🏠 INICIO
+        </button>
+
     </div>
 
 </div>
 
+
 <script>
+
+/* =====================================================
+   CANVAS
+===================================================== */
 
 const canvas = document.getElementById("gameCanvas");
 const ctx = canvas.getContext("2d");
@@ -270,30 +384,81 @@ const ctx = canvas.getContext("2d");
 const WIDTH = canvas.width;
 const HEIGHT = canvas.height;
 
-/* =========================
-   CARGA DE IMÁGENES DE FONDO
-========================= */
+
+/* =====================================================
+   FONDOS
+===================================================== */
+
 const bgFondo = new Image();
 bgFondo.src = "Fondo.jpg";
 
 const bgNoche = new Image();
 bgNoche.src = "Fondo noche.jpg";
 
-/* =========================
-   ELEMENTOS DE LA INTERFAZ
-========================= */
 
-const startScreen = document.getElementById("startScreen");
-const characterScreen = document.getElementById("characterScreen");
-const gameOverScreen = document.getElementById("gameOverScreen");
-const winScreen = document.getElementById("winScreen");
-const winVideo = document.getElementById("winVideo"); 
+/* =====================================================
+   IMÁGENES DE OBJETOS
+===================================================== */
 
-const livesText = document.getElementById("lives");
-const riceText = document.getElementById("rice");
-const carrotsText = document.getElementById("carrots");
-const scoreText = document.getElementById("score");
-const levelText = document.getElementById("level");
+const carrotImage = new Image();
+carrotImage.src = "carrot.png";
+
+const bathtubImage = new Image();
+bathtubImage.src = "banera.png";
+
+
+/* =====================================================
+   SONIDOS
+===================================================== */
+
+const backgroundMusic = new Audio("8bit.mp3");
+const jumpSound = new Audio("Retro Jump 1.mp3");
+const pointsSound = new Audio("points.mp3");
+
+backgroundMusic.loop = true;
+
+backgroundMusic.volume = 0.30;
+
+jumpSound.volume = 0.60;
+
+pointsSound.volume = 0.60;
+
+
+/* =====================================================
+   INTERFAZ
+===================================================== */
+
+const startScreen =
+    document.getElementById("startScreen");
+
+const characterScreen =
+    document.getElementById("characterScreen");
+
+const gameOverScreen =
+    document.getElementById("gameOverScreen");
+
+const winScreen =
+    document.getElementById("winScreen");
+
+const winVideo =
+    document.getElementById("winVideo");
+
+
+const livesText =
+    document.getElementById("lives");
+
+const riceText =
+    document.getElementById("rice");
+
+const carrotsText =
+    document.getElementById("carrots");
+
+const scoreText =
+    document.getElementById("score");
+
+const levelText =
+    document.getElementById("level");
+
 
 const selectedCharacterText =
     document.getElementById("selectedCharacter");
@@ -301,62 +466,95 @@ const selectedCharacterText =
 const continueButton =
     document.getElementById("continueButton");
 
-/* =========================
+
+/* =====================================================
    PERSONAJES
-========================= */
+===================================================== */
 
 const characters = {
+
     rabbit: "🐰",
+
     prince: "🤴",
+
     princess: "👸"
+
 };
 
 let selectedCharacter = null;
 
-/* =========================
+
+/* =====================================================
    ESTADO DEL JUEGO
-========================= */
+===================================================== */
 
 let gameRunning = false;
+
 let currentLevel = 0;
 
 const game = {
+
     lives: 3,
+
     rice: 0,
+
     carrots: 0,
+
     score: 0,
+
     level: 1
+
 };
 
-/* =========================
-   JUGADOR Y PROYECTILES
-========================= */
+
+/* =====================================================
+   JUGADOR
+===================================================== */
 
 const player = {
+
     x: 60,
+
     y: 350,
+
     width: 45,
+
     height: 45,
+
     vx: 0,
+
     vy: 0,
+
     speed: 4,
+
     jumpPower: 11,
+
     grounded: false,
-    facing: 1 // 1 para derecha, -1 para izquierda
+
+    facing: 1
+
 };
 
-let bullets = [];
-let lastShot = 0; // Para controlar la velocidad de disparo
 
-/* =========================
+/* =====================================================
+   BALAS
+===================================================== */
+
+let bullets = [];
+
+let lastShot = 0;
+
+
+/* =====================================================
    FÍSICA
-========================= */
+===================================================== */
 
 const gravity = 0.5;
 
-/* =========================
+
+/* =====================================================
    CONTROLES
-========================= */
+===================================================== */
 
 const keys = {};
 
@@ -365,507 +563,1518 @@ window.addEventListener("keydown", e => {
     keys[e.key.toLowerCase()] = true;
 
     if (
-        ["arrowup", "arrowdown", "arrowleft", "arrowright", " "]
-        .includes(e.key.toLowerCase())
+        [
+            "arrowup",
+            "arrowdown",
+            "arrowleft",
+            "arrowright",
+            " "
+        ].includes(e.key.toLowerCase())
     ) {
+
         e.preventDefault();
+
     }
 
-    if (e.key.toLowerCase() === "r" && gameRunning) {
+
+    /* REINICIAR */
+
+    if (
+        e.key.toLowerCase() === "r" &&
+        gameRunning
+    ) {
+
         loadLevel(currentLevel);
+
     }
 
-    if (e.key.toLowerCase() === "i") {
+
+    /* INICIO */
+
+    if (
+        e.key.toLowerCase() === "i"
+    ) {
+
         showStartScreen();
+
     }
-    
-    // DISPARAR (AHORA CON ESPACIO)
+
+
+    /* DISPARAR */
+
     const now = Date.now();
-    if (e.key === " " && gameRunning && now - lastShot > 300) {
+
+    if (
+        e.key === " " &&
+        gameRunning &&
+        now - lastShot > 300
+    ) {
+
         bullets.push({
-            x: player.facing === 1 ? player.x + player.width : player.x - 20,
+
+            x:
+                player.facing === 1
+                    ? player.x + player.width
+                    : player.x - 20,
+
             y: player.y + 15,
+
             width: 20,
+
             height: 20,
-            vx: player.facing === 1 ? 10 : -10 // Velocidad y dirección del proyectil
+
+            vx:
+                player.facing === 1
+                    ? 10
+                    : -10
+
         });
+
         lastShot = now;
+
     }
+
 });
+
 
 window.addEventListener("keyup", e => {
+
     keys[e.key.toLowerCase()] = false;
+
 });
 
-/* =========================
+
+/* =====================================================
    NIVELES
-========================= */
+===================================================== */
 
 const levels = [
 
     {
         platforms: [
+
             {x:0, y:450, w:800, h:50},
+
             {x:120, y:370, w:150, h:20},
+
             {x:330, y:300, w:140, h:20},
+
             {x:540, y:370, w:140, h:20},
+
             {x:650, y:260, w:100, h:20}
+
         ],
-        rice: [{x:180, y:330}, {x:390, y:260}, {x:590, y:330}, {x:690, y:220}],
-        carrots: [{x:250, y:420}, {x:450, y:420}, {x:730, y:420}],
-        enemies: [{x:300, y:410, w:45, h:40, vx:1.5}, {x:500, y:410, w:45, h:40, vx:-1.5}]
+
+        rice: [
+
+            {x:180, y:330},
+
+            {x:390, y:260},
+
+            {x:590, y:330},
+
+            {x:690, y:220}
+
+        ],
+
+        carrots: [
+
+            {x:250, y:420},
+
+            {x:450, y:420},
+
+            {x:730, y:420}
+
+        ]
+
     },
+
+
     {
         platforms: [
-            {x:0, y:450, w:800, h:50}, {x:80, y:350, w:120, h:20}, {x:260, y:280, w:130, h:20},
-            {x:460, y:350, w:130, h:20}, {x:650, y:250, w:100, h:20}
+
+            {x:0, y:450, w:800, h:50},
+
+            {x:80, y:350, w:120, h:20},
+
+            {x:260, y:280, w:130, h:20},
+
+            {x:460, y:350, w:130, h:20},
+
+            {x:650, y:250, w:100, h:20}
+
         ],
-        rice: [{x:120, y:310}, {x:300, y:240}, {x:500, y:310}, {x:690, y:210}],
-        carrots: [{x:220, y:420}, {x:400, y:420}, {x:620, y:420}],
-        enemies: [{x:210, y:410, w:45, h:40, vx:2}, {x:590, y:410, w:45, h:40, vx:-2}]
+
+        rice: [
+
+            {x:120, y:310},
+
+            {x:300, y:240},
+
+            {x:500, y:310},
+
+            {x:690, y:210}
+
+        ],
+
+        carrots: [
+
+            {x:220, y:420},
+
+            {x:400, y:420},
+
+            {x:620, y:420}
+
+        ]
+
     },
+
+
     {
         platforms: [
-            {x:0, y:450, w:800, h:50}, {x:100, y:360, w:120, h:20}, {x:300, y:300, w:120, h:20},
-            {x:500, y:360, w:120, h:20}, {x:680, y:290, w:100, h:20}
+
+            {x:0, y:450, w:800, h:50},
+
+            {x:100, y:360, w:120, h:20},
+
+            {x:300, y:300, w:120, h:20},
+
+            {x:500, y:360, w:120, h:20},
+
+            {x:680, y:290, w:100, h:20}
+
         ],
-        rice: [{x:140, y:320}, {x:340, y:260}, {x:540, y:320}, {x:720, y:250}],
-        carrots: [{x:250, y:420}, {x:450, y:420}, {x:700, y:420}],
-        enemies: [{x:230, y:410, w:45, h:40, vx:1.7}, {x:620, y:410, w:45, h:40, vx:-1.7}]
+
+        rice: [
+
+            {x:140, y:320},
+
+            {x:340, y:260},
+
+            {x:540, y:320},
+
+            {x:720, y:250}
+
+        ],
+
+        carrots: [
+
+            {x:250, y:420},
+
+            {x:450, y:420},
+
+            {x:700, y:420}
+
+        ]
+
     },
+
+
     {
         platforms: [
-            {x:0, y:450, w:800, h:50}, {x:70, y:340, w:120, h:20}, {x:240, y:250, w:130, h:20},
-            {x:430, y:340, w:130, h:20}, {x:620, y:230, w:130, h:20}
+
+            {x:0, y:450, w:800, h:50},
+
+            {x:70, y:340, w:120, h:20},
+
+            {x:240, y:250, w:130, h:20},
+
+            {x:430, y:340, w:130, h:20},
+
+            {x:620, y:230, w:130, h:20}
+
         ],
-        rice: [{x:110, y:300}, {x:280, y:210}, {x:470, y:300}, {x:660, y:190}],
-        carrots: [{x:200, y:420}, {x:400, y:420}, {x:600, y:420}],
-        enemies: [{x:190, y:410, w:45, h:40, vx:2}, {x:570, y:410, w:45, h:40, vx:-2}]
+
+        rice: [
+
+            {x:110, y:300},
+
+            {x:280, y:210},
+
+            {x:470, y:300},
+
+            {x:660, y:190}
+
+        ],
+
+        carrots: [
+
+            {x:200, y:420},
+
+            {x:400, y:420},
+
+            {x:600, y:420}
+
+        ]
+
     },
+
+
     {
         platforms: [
-            {x:0, y:450, w:800, h:50}, {x:130, y:330, w:130, h:20}, {x:340, y:250, w:130, h:20},
-            {x:550, y:330, w:130, h:20}, {x:700, y:220, w:80, h:20}
+
+            {x:0, y:450, w:800, h:50},
+
+            {x:130, y:330, w:130, h:20},
+
+            {x:340, y:250, w:130, h:20},
+
+            {x:550, y:330, w:130, h:20},
+
+            {x:700, y:220, w:80, h:20}
+
         ],
-        rice: [{x:170, y:290}, {x:380, y:210}, {x:590, y:290}, {x:730, y:180}],
-        carrots: [{x:280, y:420}, {x:480, y:420}, {x:700, y:420}],
-        enemies: [{x:270, y:410, w:45, h:40, vx:1.8}, {x:640, y:410, w:45, h:40, vx:-1.8}]
+
+        rice: [
+
+            {x:170, y:290},
+
+            {x:380, y:210},
+
+            {x:590, y:290},
+
+            {x:730, y:180}
+
+        ],
+
+        carrots: [
+
+            {x:280, y:420},
+
+            {x:480, y:420},
+
+            {x:700, y:420}
+
+        ]
+
     },
+
+
     {
         platforms: [
-            {x:0, y:450, w:800, h:50}, {x:100, y:350, w:100, h:20}, {x:250, y:280, w:120, h:20},
-            {x:430, y:350, w:120, h:20}, {x:600, y:270, w:120, h:20}
+
+            {x:0, y:450, w:800, h:50},
+
+            {x:100, y:350, w:100, h:20},
+
+            {x:250, y:280, w:120, h:20},
+
+            {x:430, y:350, w:120, h:20},
+
+            {x:600, y:270, w:120, h:20}
+
         ],
-        rice: [{x:130, y:310}, {x:290, y:240}, {x:470, y:310}, {x:640, y:230}],
-        carrots: [{x:220, y:420}, {x:400, y:420}, {x:650, y:420}],
-        enemies: [{x:200, y:410, w:45, h:40, vx:2}, {x:560, y:410, w:45, h:40, vx:-2}]
+
+        rice: [
+
+            {x:130, y:310},
+
+            {x:290, y:240},
+
+            {x:470, y:310},
+
+            {x:640, y:230}
+
+        ],
+
+        carrots: [
+
+            {x:220, y:420},
+
+            {x:400, y:420},
+
+            {x:650, y:420}
+
+        ]
+
     },
+
+
     {
         platforms: [
-            {x:0, y:450, w:800, h:50}, {x:80, y:360, w:130, h:20}, {x:290, y:290, w:130, h:20},
-            {x:500, y:350, w:120, h:20}, {x:660, y:240, w:110, h:20}
+
+            {x:0, y:450, w:800, h:50},
+
+            {x:80, y:360, w:130, h:20},
+
+            {x:290, y:290, w:130, h:20},
+
+            {x:500, y:350, w:120, h:20},
+
+            {x:660, y:240, w:110, h:20}
+
         ],
-        rice: [{x:120, y:320}, {x:330, y:250}, {x:540, y:310}, {x:700, y:200}],
-        carrots: [{x:230, y:420}, {x:430, y:420}, {x:700, y:420}],
-        enemies: [{x:220, y:410, w:45, h:40, vx:1.5}, {x:620, y:410, w:45, h:40, vx:-2}]
+
+        rice: [
+
+            {x:120, y:320},
+
+            {x:330, y:250},
+
+            {x:540, y:310},
+
+            {x:700, y:200}
+
+        ],
+
+        carrots: [
+
+            {x:230, y:420},
+
+            {x:430, y:420},
+
+            {x:700, y:420}
+
+        ]
+
     },
+
+
     {
         platforms: [
-            {x:0, y:450, w:800, h:50}, {x:120, y:330, w:120, h:20}, {x:310, y:260, w:130, h:20},
-            {x:510, y:330, w:130, h:20}, {x:690, y:220, w:90, h:20}
+
+            {x:0, y:450, w:800, h:50},
+
+            {x:120, y:330, w:120, h:20},
+
+            {x:310, y:260, w:130, h:20},
+
+            {x:510, y:330, w:130, h:20},
+
+            {x:690, y:220, w:90, h:20}
+
         ],
-        rice: [{x:160, y:290}, {x:350, y:220}, {x:550, y:290}, {x:720, y:180}],
-        carrots: [{x:260, y:420}, {x:470, y:420}, {x:680, y:420}],
-        enemies: [{x:250, y:410, w:45, h:40, vx:2}, {x:630, y:410, w:45, h:40, vx:-2}]
+
+        rice: [
+
+            {x:160, y:290},
+
+            {x:350, y:220},
+
+            {x:550, y:290},
+
+            {x:720, y:180}
+
+        ],
+
+        carrots: [
+
+            {x:260, y:420},
+
+            {x:470, y:420},
+
+            {x:680, y:420}
+
+        ]
+
     },
+
+
     {
         platforms: [
-            {x:0, y:450, w:800, h:50}, {x:70, y:350, w:130, h:20}, {x:260, y:270, w:130, h:20},
-            {x:450, y:350, w:130, h:20}, {x:640, y:260, w:130, h:20}
+
+            {x:0, y:450, w:800, h:50},
+
+            {x:70, y:350, w:130, h:20},
+
+            {x:260, y:270, w:130, h:20},
+
+            {x:450, y:350, w:130, h:20},
+
+            {x:640, y:260, w:130, h:20}
+
         ],
-        rice: [{x:110, y:310}, {x:300, y:230}, {x:490, y:310}, {x:680, y:220}],
-        carrots: [{x:210, y:420}, {x:420, y:420}, {x:650, y:420}],
-        enemies: [{x:210, y:410, w:45, h:40, vx:1.8}, {x:590, y:410, w:45, h:40, vx:-1.8}]
+
+        rice: [
+
+            {x:110, y:310},
+
+            {x:300, y:230},
+
+            {x:490, y:310},
+
+            {x:680, y:220}
+
+        ],
+
+        carrots: [
+
+            {x:210, y:420},
+
+            {x:420, y:420},
+
+            {x:650, y:420}
+
+        ]
+
     },
+
+
     {
         platforms: [
-            {x:0, y:450, w:800, h:50}, {x:100, y:350, w:120, h:20}, {x:280, y:270, w:120, h:20},
-            {x:460, y:350, w:120, h:20}, {x:620, y:260, w:150, h:20}
+
+            {x:0, y:450, w:800, h:50},
+
+            {x:100, y:350, w:120, h:20},
+
+            {x:280, y:270, w:120, h:20},
+
+            {x:460, y:350, w:120, h:20},
+
+            {x:620, y:260, w:150, h:20}
+
         ],
-        rice: [{x:140, y:310}, {x:320, y:230}, {x:500, y:310}, {x:680, y:220}],
-        carrots: [{x:240, y:420}, {x:440, y:420}, {x:680, y:420}],
-        enemies: [{x:220, y:410, w:45, h:40, vx:2}, {x:600, y:410, w:45, h:40, vx:-2}, {x:380, y:410, w:45, h:40, vx:1.5}]
+
+        rice: [
+
+            {x:140, y:310},
+
+            {x:320, y:230},
+
+            {x:500, y:310},
+
+            {x:680, y:220}
+
+        ],
+
+        carrots: [
+
+            {x:240, y:420},
+
+            {x:440, y:420},
+
+            {x:680, y:420}
+
+        ]
+
     }
 
 ];
 
-/* =========================
-   NIVEL ACTUAL
-========================= */
+
+/* =====================================================
+   OBJETOS DEL NIVEL ACTUAL
+===================================================== */
 
 let platforms = [];
+
 let riceItems = [];
+
 let carrotItems = [];
+
 let enemies = [];
 
-/* =========================
-   FUNCIONES DE INTERFAZ
-========================= */
 
-function hideAllScreens() {
-    startScreen.classList.add("hidden");
-    characterScreen.classList.add("hidden");
-    gameOverScreen.classList.add("hidden");
-    winScreen.classList.add("hidden");
-}
+/* =====================================================
+   GENERAR ENEMIGOS
+===================================================== */
 
-function showStartScreen() {
-    gameRunning = false;
-    hideAllScreens();
-    startScreen.classList.remove("hidden");
-}
+/*
 
-document.getElementById("startButton").addEventListener("click", () => {
+    NIVEL 1  = 2 enemigos
+    NIVEL 2  = 3 enemigos
+    NIVEL 3  = 4 enemigos
+    ...
+    NIVEL 10 = 11 enemigos
 
-    hideAllScreens();
+*/
 
-    characterScreen.classList.remove("hidden");
+function generateEnemies(levelIndex) {
 
-    selectedCharacter = null;
+    const enemyCount = levelIndex + 2;
 
-    document.querySelectorAll(".character").forEach(c => {
-        c.classList.remove("selected");
-    });
+    const newEnemies = [];
 
-    selectedCharacterText.textContent =
-        "Elige un personaje";
+    const enemyWidth = 45;
 
-    continueButton.disabled = true;
-});
+    const enemyHeight = 40;
 
-/* =========================
-   SELECCIÓN DE PERSONAJE
-========================= */
 
-document.querySelectorAll(".character").forEach(card => {
+    for (let i = 0; i < enemyCount; i++) {
 
-    card.addEventListener("click", () => {
+        /*
+            Elegimos diferentes plataformas.
 
-        document.querySelectorAll(".character").forEach(c => {
-            c.classList.remove("selected");
+            La plataforma 0 es el piso.
+            Las demás son los escalones.
+        */
+
+        const platformIndex =
+            i % platforms.length;
+
+        const platform =
+            platforms[platformIndex];
+
+
+        /*
+            Calculamos una posición diferente
+            dentro de la plataforma.
+        */
+
+        const usableWidth =
+            platform.w - enemyWidth - 20;
+
+        let x;
+
+        if (usableWidth > 0) {
+
+            /*
+                Posición pseudoaleatoria pero
+                estable para cada enemigo.
+            */
+
+            const seed =
+                (i * 137 + levelIndex * 83) %
+                100;
+
+            x =
+                platform.x +
+                10 +
+                (usableWidth * seed / 100);
+
+        } else {
+
+            x =
+                platform.x + 5;
+
+        }
+
+
+        /*
+            Evitar que aparezca encima del jugador
+            al comenzar el nivel.
+        */
+
+        if (
+            platformIndex === 0 &&
+            x < 180
+        ) {
+
+            x = 250;
+
+        }
+
+
+        /*
+            Asegurarnos de que no se salga
+            de la plataforma.
+        */
+
+        const minX =
+            platform.x + 5;
+
+        const maxX =
+            platform.x +
+            platform.w -
+            enemyWidth -
+            5;
+
+
+        x =
+            Math.max(
+                minX,
+                Math.min(x, maxX)
+            );
+
+
+        /*
+            El enemigo aparece exactamente
+            encima de la plataforma.
+        */
+
+        const y =
+            platform.y - enemyHeight;
+
+
+        /*
+            Velocidad aumenta con el nivel.
+        */
+
+        const baseSpeed =
+            1.2 +
+            levelIndex * 0.12;
+
+        const direction =
+            i % 2 === 0 ? 1 : -1;
+
+
+        newEnemies.push({
+
+            x: x,
+
+            y: y,
+
+            w: enemyWidth,
+
+            h: enemyHeight,
+
+            vx:
+                baseSpeed * direction,
+
+            platformX:
+                platform.x,
+
+            platformY:
+                platform.y,
+
+            platformW:
+                platform.w,
+
+            platformH:
+                platform.h
+
         });
 
-        card.classList.add("selected");
+    }
 
-        selectedCharacter =
-            card.dataset.character;
 
-        let name = "";
+    return newEnemies;
 
-        if (selectedCharacter === "rabbit") {
-            name = "🐰 Conejito";
-        }
+}
 
-        if (selectedCharacter === "prince") {
-            name = "🤴 Príncipe";
-        }
 
-        if (selectedCharacter === "princess") {
-            name = "👸 Princesa";
-        }
+/* =====================================================
+   FUNCIONES DE INTERFAZ
+===================================================== */
 
-        selectedCharacterText.textContent =
-            "Has elegido: " + name;
+function hideAllScreens() {
 
-        continueButton.disabled = false;
-    });
+    startScreen.classList.add("hidden");
 
-});
+    characterScreen.classList.add("hidden");
 
-/* =========================
-   COMENZAR
-========================= */
+    gameOverScreen.classList.add("hidden");
 
-continueButton.addEventListener("click", () => {
+    winScreen.classList.add("hidden");
 
-    if (!selectedCharacter) return;
+}
+
+
+function showStartScreen() {
+
+    gameRunning = false;
+
+
+    /* DETENER MÚSICA */
+
+    backgroundMusic.pause();
+
+    backgroundMusic.currentTime = 0;
+
+
+    /* DETENER VIDEO */
+
+    winVideo.pause();
+
+    winVideo.currentTime = 0;
+
 
     hideAllScreens();
 
-    game.lives = 3;
-    game.rice = 0;
-    game.carrots = 0;
-    game.score = 0;
-    currentLevel = 0;
-    game.level = 1;
+    startScreen.classList.remove("hidden");
 
-    loadLevel(currentLevel);
+}
 
-    gameRunning = true;
-});
 
-/* =========================
+/* =====================================================
+   BOTÓN JUGAR
+===================================================== */
+
+document
+    .getElementById("startButton")
+    .addEventListener("click", () => {
+
+        hideAllScreens();
+
+        characterScreen.classList.remove("hidden");
+
+        selectedCharacter = null;
+
+        document
+            .querySelectorAll(".character")
+            .forEach(c => {
+
+                c.classList.remove("selected");
+
+            });
+
+        selectedCharacterText.textContent =
+            "Elige un personaje";
+
+        continueButton.disabled = true;
+
+    });
+
+
+/* =====================================================
+   SELECCIÓN DE PERSONAJE
+===================================================== */
+
+document
+    .querySelectorAll(".character")
+    .forEach(card => {
+
+        card.addEventListener("click", () => {
+
+            document
+                .querySelectorAll(".character")
+                .forEach(c => {
+
+                    c.classList.remove("selected");
+
+                });
+
+
+            card.classList.add("selected");
+
+
+            selectedCharacter =
+                card.dataset.character;
+
+
+            let name = "";
+
+
+            if (
+                selectedCharacter === "rabbit"
+            ) {
+
+                name = "🐰 Conejito";
+
+            }
+
+
+            if (
+                selectedCharacter === "prince"
+            ) {
+
+                name = "🤴 Príncipe";
+
+            }
+
+
+            if (
+                selectedCharacter === "princess"
+            ) {
+
+                name = "👸 Princesa";
+
+            }
+
+
+            selectedCharacterText.textContent =
+                "Has elegido: " + name;
+
+
+            continueButton.disabled = false;
+
+        });
+
+    });
+
+
+/* =====================================================
+   COMENZAR AVENTURA
+===================================================== */
+
+continueButton.addEventListener(
+    "click",
+    () => {
+
+        if (!selectedCharacter) return;
+
+
+        hideAllScreens();
+
+
+        /* =========================
+           MÚSICA
+        ========================= */
+
+        backgroundMusic.currentTime = 0;
+
+        backgroundMusic
+            .play()
+            .catch(error => {
+
+                console.log(
+                    "No se pudo reproducir la música:",
+                    error
+                );
+
+            });
+
+
+        /* =========================
+           REINICIAR ESTADÍSTICAS
+        ========================= */
+
+        game.lives = 3;
+
+        game.rice = 0;
+
+        game.carrots = 0;
+
+        game.score = 0;
+
+        currentLevel = 0;
+
+        game.level = 1;
+
+
+        loadLevel(currentLevel);
+
+
+        gameRunning = true;
+
+    }
+);
+
+
+/* =====================================================
    CARGAR NIVEL
-========================= */
+===================================================== */
 
 function loadLevel(index) {
 
-    const level = levels[index];
+    const level =
+        levels[index];
 
-    platforms = level.platforms.map(p => ({...p}));
 
-    riceItems = level.rice.map(item => ({
-        x: item.x,
-        y: item.y,
-        collected: false
-    }));
+    /* PLATAFORMAS */
 
-    carrotItems = level.carrots.map(item => ({
-        x: item.x,
-        y: item.y,
-        collected: false
-    }));
+    platforms =
+        level.platforms.map(
+            p => ({...p})
+        );
 
-    enemies = level.enemies.map(e => ({
-        ...e
-    }));
+
+    /* ARROZ */
+
+    riceItems =
+        level.rice.map(item => ({
+
+            x: item.x,
+
+            y: item.y,
+
+            collected: false
+
+        }));
+
+
+    /* ZANAHORIAS */
+
+    carrotItems =
+        level.carrots.map(item => ({
+
+            x: item.x,
+
+            y: item.y,
+
+            collected: false
+
+        }));
+
+
+    /* =========================
+       GENERAR ENEMIGOS
+    ========================= */
+
+    enemies =
+        generateEnemies(index);
+
+
+    /* JUGADOR */
 
     player.x = 50;
+
     player.y = 390;
+
     player.vx = 0;
+
     player.vy = 0;
+
     player.facing = 1;
-    bullets = []; // Limpiar balas al cambiar de nivel
+
+    player.grounded = false;
+
+
+    /* BALAS */
+
+    bullets = [];
+
+
+    /* ARROZ DEL NIVEL */
 
     game.rice = 0;
 
-    levelText.textContent = game.level;
+
+    levelText.textContent =
+        game.level;
+
 
     updateHUD();
+
 }
 
-/* =========================
+
+/* =====================================================
    ACTUALIZAR HUD
-========================= */
+===================================================== */
 
 function updateHUD() {
 
-    livesText.textContent = game.lives;
-    riceText.textContent = game.rice;
-    carrotsText.textContent = game.carrots;
-    scoreText.textContent = game.score;
-    levelText.textContent = game.level;
+    livesText.textContent =
+        game.lives;
+
+    riceText.textContent =
+        game.rice;
+
+    carrotsText.textContent =
+        game.carrots;
+
+    scoreText.textContent =
+        game.score;
+
+    levelText.textContent =
+        game.level;
 
 }
 
-/* =========================
+
+/* =====================================================
    COLISIONES
-========================= */
+===================================================== */
 
 function collision(a, b) {
-    let aw = a.w || a.width;
-    let ah = a.h || a.height;
-    let bw = b.w || b.width;
-    let bh = b.h || b.height;
+
+    let aw =
+        a.w || a.width;
+
+    let ah =
+        a.h || a.height;
+
+    let bw =
+        b.w || b.width;
+
+    let bh =
+        b.h || b.height;
+
 
     return (
+
         a.x < b.x + bw &&
+
         a.x + aw > b.x &&
+
         a.y < b.y + bh &&
+
         a.y + ah > b.y
+
     );
+
 }
 
-/* =========================
+
+/* =====================================================
    ACTUALIZAR JUGADOR
-========================= */
+===================================================== */
 
 function updatePlayer() {
 
     player.vx = 0;
 
-    if (keys["arrowleft"] || keys["a"]) {
-        player.vx = -player.speed;
-        player.facing = -1; // Mirando a la izquierda
+
+    /* IZQUIERDA */
+
+    if (
+        keys["arrowleft"] ||
+        keys["a"]
+    ) {
+
+        player.vx =
+            -player.speed;
+
+        player.facing = -1;
+
     }
 
-    if (keys["arrowright"] || keys["d"]) {
-        player.vx = player.speed;
-        player.facing = 1; // Mirando a la derecha
+
+    /* DERECHA */
+
+    if (
+        keys["arrowright"] ||
+        keys["d"]
+    ) {
+
+        player.vx =
+            player.speed;
+
+        player.facing = 1;
+
     }
 
-    // SALTAR SOLO CON LA W
-    if (keys["w"] && player.grounded) {
-        player.vy = -player.jumpPower;
-        player.grounded = false;
+
+    /* =========================
+       SALTAR
+    ========================= */
+
+    if (
+        keys["w"] &&
+        player.grounded
+    ) {
+
+        player.vy =
+            -player.jumpPower;
+
+        player.grounded =
+            false;
+
+
+        /* SONIDO DE SALTO */
+
+        jumpSound.currentTime = 0;
+
+        jumpSound
+            .play()
+            .catch(error => {
+
+                console.log(
+                    "No se pudo reproducir salto:",
+                    error
+                );
+
+            });
+
     }
+
+
+    /* GRAVEDAD */
 
     player.vy += gravity;
 
+
+    /* MOVIMIENTO */
+
     player.x += player.vx;
+
     player.y += player.vy;
 
+
+    /* LIMITAR X */
+
     if (player.x < 0) {
+
         player.x = 0;
+
     }
 
-    if (player.x + player.width > WIDTH) {
-        player.x = WIDTH - player.width;
+
+    if (
+        player.x + player.width >
+        WIDTH
+    ) {
+
+        player.x =
+            WIDTH -
+            player.width;
+
     }
+
 
     player.grounded = false;
+
+
+    /* =========================
+       COLISIÓN CON PLATAFORMAS
+    ========================= */
 
     for (const p of platforms) {
 
         if (
-            player.x < p.x + p.w &&
-            player.x + player.width > p.x &&
-            player.y + player.height <= p.y + 15 &&
-            player.y + player.height + player.vy >= p.y
+
+            player.x <
+                p.x + p.w &&
+
+            player.x +
+                player.width >
+                p.x &&
+
+            player.y +
+                player.height <=
+                p.y + 15 &&
+
+            player.y +
+                player.height +
+                player.vy >=
+                p.y
+
         ) {
 
-            player.y = p.y - player.height;
+            player.y =
+                p.y -
+                player.height;
+
             player.vy = 0;
-            player.grounded = true;
+
+            player.grounded =
+                true;
+
         }
+
     }
 
-    if (player.y > HEIGHT + 50) {
+
+    /* CAER DEL MAPA */
+
+    if (
+        player.y >
+        HEIGHT + 50
+    ) {
 
         loseLife();
+
     }
+
 }
 
-/* =========================
+
+/* =====================================================
    ACTUALIZAR BALAS
-========================= */
+===================================================== */
 
 function updateBullets() {
-    for (let i = bullets.length - 1; i >= 0; i--) {
-        let b = bullets[i];
+
+    for (
+        let i = bullets.length - 1;
+        i >= 0;
+        i--
+    ) {
+
+        let b =
+            bullets[i];
+
+
         b.x += b.vx;
+
 
         let hit = false;
 
-        // Comprobar colisión con enemigos
-        for (let enemy of enemies) {
-            if (enemy.x > -100 && collision(b, enemy)) {
-                enemy.x = -100; // El enemigo es derrotado
+
+        /* COMPROBAR ENEMIGOS */
+
+        for (
+            let enemy of enemies
+        ) {
+
+            if (
+                enemy.x > -100 &&
+                collision(b, enemy)
+            ) {
+
+                enemy.x = -100;
+
                 game.score += 100;
+
                 updateHUD();
+
                 hit = true;
+
                 break;
+
             }
+
         }
 
-        // Eliminar bala si golpeó algo o si salió de la pantalla
-        if (hit || b.x < 0 || b.x > WIDTH) {
+
+        /* ELIMINAR BALA */
+
+        if (
+            hit ||
+            b.x < -50 ||
+            b.x > WIDTH + 50
+        ) {
+
             bullets.splice(i, 1);
+
         }
+
     }
+
 }
 
-/* =========================
+
+/* =====================================================
    ACTUALIZAR ENEMIGOS
-========================= */
+===================================================== */
 
 function updateEnemies() {
 
-    for (const enemy of enemies) {
+    for (
+        const enemy of enemies
+    ) {
+
+        /*
+            Si fue derrotado,
+            no hacemos nada.
+        */
+
+        if (
+            enemy.x <= -100
+        ) {
+
+            continue;
+
+        }
+
+
+        /* MOVIMIENTO */
 
         enemy.x += enemy.vx;
 
+
+        /*
+            LÍMITES DE SU PLATAFORMA
+        */
+
+        const minX =
+            enemy.platformX + 5;
+
+
+        const maxX =
+            enemy.platformX +
+            enemy.platformW -
+            enemy.w -
+            5;
+
+
+        /*
+            No puede salirse del escalón.
+        */
+
         if (
-            enemy.x < 0 ||
-            enemy.x + enemy.w > WIDTH
+            enemy.x <= minX
         ) {
-            enemy.vx *= -1;
+
+            enemy.x =
+                minX;
+
+            enemy.vx =
+                Math.abs(enemy.vx);
+
         }
 
-        if (collision(player, enemy)) {
 
-            // Si el jugador cae sobre el enemigo
-            if (player.vy > 0 &&
-                player.y + player.height - 10 < enemy.y + 15) {
+        if (
+            enemy.x >= maxX
+        ) {
+
+            enemy.x =
+                maxX;
+
+            enemy.vx =
+                -Math.abs(enemy.vx);
+
+        }
+
+
+        /*
+            Mantener al enemigo
+            encima de su plataforma.
+        */
+
+        enemy.y =
+            enemy.platformY -
+            enemy.h;
+
+
+        /* =========================
+           COLISIÓN CON JUGADOR
+        ========================= */
+
+        if (
+            collision(
+                player,
+                enemy
+            )
+        ) {
+
+            /*
+                Si el jugador cae encima
+                del enemigo, lo derrota.
+            */
+
+            if (
+                player.vy > 0 &&
+                player.y +
+                    player.height -
+                    10 <
+                    enemy.y + 15
+            ) {
 
                 enemy.x = -100;
+
                 game.score += 100;
+
                 player.vy = -7;
+
+                updateHUD();
 
             } else {
 
                 loseLife();
+
                 return;
+
             }
+
         }
+
     }
+
 }
 
-/* =========================
+
+/* =====================================================
    RECOLECTAR ARROZ
-========================= */
+===================================================== */
 
 function updateRice() {
 
-    for (const item of riceItems) {
+    for (
+        const item of riceItems
+    ) {
 
-        if (item.collected) continue;
+        if (
+            item.collected
+        ) {
+
+            continue;
+
+        }
+
 
         const dx =
-            player.x + player.width / 2 - item.x;
+            player.x +
+            player.width / 2 -
+            item.x;
+
 
         const dy =
-            player.y + player.height / 2 - item.y;
+            player.y +
+            player.height / 2 -
+            item.y;
+
 
         const distance =
-            Math.sqrt(dx * dx + dy * dy);
+            Math.sqrt(
+                dx * dx +
+                dy * dy
+            );
 
-        if (distance < 35) {
 
-            item.collected = true;
+        if (
+            distance < 35
+        ) {
+
+            item.collected =
+                true;
 
             game.rice++;
+
             game.score += 50;
 
             updateHUD();
+
         }
+
     }
+
 }
 
-/* =========================
+
+/* =====================================================
    RECOLECTAR ZANAHORIAS
-========================= */
+===================================================== */
 
 function updateCarrots() {
 
-    for (const item of carrotItems) {
+    for (
+        const item of carrotItems
+    ) {
 
-        if (item.collected) continue;
+        if (
+            item.collected
+        ) {
+
+            continue;
+
+        }
+
 
         const dx =
-            player.x + player.width / 2 - item.x;
+            player.x +
+            player.width / 2 -
+            item.x;
+
 
         const dy =
-            player.y + player.height / 2 - item.y;
+            player.y +
+            player.height / 2 -
+            item.y;
+
 
         const distance =
-            Math.sqrt(dx * dx + dy * dy);
+            Math.sqrt(
+                dx * dx +
+                dy * dy
+            );
 
-        if (distance < 35) {
 
-            item.collected = true;
+        if (
+            distance < 35
+        ) {
+
+            item.collected =
+                true;
+
 
             game.carrots++;
+
             game.score += 200;
 
+
+            /* =========================
+               SONIDO DE PUNTOS
+            ========================= */
+
+            pointsSound.currentTime = 0;
+
+            pointsSound
+                .play()
+                .catch(error => {
+
+                    console.log(
+                        "No se pudo reproducir points.mp3:",
+                        error
+                    );
+
+                });
+
+
             updateHUD();
+
         }
+
     }
+
 }
 
-/* =========================
+
+/* =====================================================
    PERDER VIDA
-========================= */
+===================================================== */
 
 function loseLife() {
 
@@ -873,159 +2082,394 @@ function loseLife() {
 
     updateHUD();
 
-    if (game.lives <= 0) {
+
+    if (
+        game.lives <= 0
+    ) {
 
         gameRunning = false;
 
-        document.getElementById("finalScore").textContent =
-            "Puntos: " + game.score;
+
+        /* DETENER MÚSICA */
+
+        backgroundMusic.pause();
+
+        backgroundMusic.currentTime = 0;
+
+
+        document
+            .getElementById("finalScore")
+            .textContent =
+            "Puntos: " +
+            game.score;
+
 
         hideAllScreens();
 
-        gameOverScreen.classList.remove("hidden");
+        gameOverScreen
+            .classList
+            .remove("hidden");
+
 
     } else {
 
+        /*
+            Respawn.
+        */
+
         player.x = 50;
+
         player.y = 390;
+
         player.vx = 0;
+
         player.vy = 0;
+
+        player.grounded = false;
+
     }
+
 }
 
-/* =========================
+
+/* =====================================================
    COMPROBAR NIVEL
-========================= */
+===================================================== */
 
 function checkLevelComplete() {
 
     const allRiceCollected =
-        riceItems.every(item => item.collected);
+        riceItems.every(
+            item =>
+                item.collected
+        );
 
-    if (allRiceCollected) {
+
+    if (
+        allRiceCollected
+    ) {
 
         gameRunning = false;
 
-        document.getElementById("winScore").textContent =
-            "Nivel completado · Puntos: " + game.score;
+
+        /* PAUSAR MÚSICA */
+
+        backgroundMusic.pause();
+
+
+        document
+            .getElementById("winScore")
+            .textContent =
+            "Nivel completado · Puntos: " +
+            game.score;
+
 
         hideAllScreens();
 
-        winScreen.classList.remove("hidden");
-        
-        // REPRODUCIR EL VIDEO AL GANAR EL NIVEL
-        winVideo.currentTime = 0; 
-        winVideo.play().catch(e => console.log("El navegador bloqueó el autoplay", e));
+        winScreen
+            .classList
+            .remove("hidden");
+
+
+        /* VIDEO */
+
+        winVideo.currentTime = 0;
+
+        winVideo
+            .play()
+            .catch(error => {
+
+                console.log(
+                    "El navegador bloqueó el autoplay:",
+                    error
+                );
+
+            });
+
     }
+
 }
 
-/* =========================
+
+/* =====================================================
    SIGUIENTE NIVEL
-========================= */
+===================================================== */
 
-document.getElementById("nextLevelButton")
-.addEventListener("click", () => {
+document
+    .getElementById("nextLevelButton")
+    .addEventListener(
+        "click",
+        () => {
 
-    winVideo.pause();
+            winVideo.pause();
 
-    currentLevel++;
+            winVideo.currentTime = 0;
 
-    if (currentLevel >= levels.length) {
 
-        document.getElementById("winScore").textContent =
-            "🎉 ¡Completaste todos los niveles! Puntos: " +
-            game.score;
+            currentLevel++;
 
-        document.getElementById("nextLevelButton")
-            .style.display = "none";
 
-        return;
-    }
+            /*
+                TERMINAR JUEGO
+            */
 
-    game.level++;
+            if (
+                currentLevel >=
+                levels.length
+            ) {
 
-    loadLevel(currentLevel);
+                document
+                    .getElementById(
+                        "winScore"
+                    )
+                    .textContent =
+                    "🎉 ¡Completaste todos los niveles! Puntos: " +
+                    game.score;
 
-    hideAllScreens();
 
-    gameRunning = true;
-});
+                document
+                    .getElementById(
+                        "nextLevelButton"
+                    )
+                    .style.display =
+                    "none";
 
-/* =========================
+
+                return;
+
+            }
+
+
+            game.level++;
+
+
+            loadLevel(
+                currentLevel
+            );
+
+
+            hideAllScreens();
+
+
+            gameRunning = true;
+
+
+            /*
+                REANUDAR MÚSICA
+            */
+
+            backgroundMusic
+                .play()
+                .catch(error => {
+
+                    console.log(
+                        "No se pudo reanudar la música:",
+                        error
+                    );
+
+                });
+
+        }
+    );
+
+
+/* =====================================================
    REINICIAR
-========================= */
+===================================================== */
 
-document.getElementById("restartButton")
-.addEventListener("click", () => {
+document
+    .getElementById("restartButton")
+    .addEventListener(
+        "click",
+        () => {
 
-    game.lives = 3;
-    game.rice = 0;
-    game.carrots = 0;
+            /*
+                Restaurar vidas.
+            */
 
-    loadLevel(currentLevel);
+            game.lives = 3;
 
-    hideAllScreens();
 
-    gameRunning = true;
-});
+            /*
+                NO reiniciamos las zanahorias
+                totales del jugador.
+            */
 
-/* =========================
+            game.rice = 0;
+
+
+            loadLevel(
+                currentLevel
+            );
+
+
+            hideAllScreens();
+
+
+            gameRunning = true;
+
+
+            /*
+                Volver a poner la música.
+            */
+
+            backgroundMusic
+                .play()
+                .catch(error => {
+
+                    console.log(
+                        "No se pudo reproducir la música:",
+                        error
+                    );
+
+                });
+
+        }
+    );
+
+
+/* =====================================================
    VOLVER A INICIO
-========================= */
+===================================================== */
 
-document.getElementById("homeButton")
-.addEventListener("click", () => {
+document
+    .getElementById("homeButton")
+    .addEventListener(
+        "click",
+        () => {
 
-    showStartScreen();
-});
+            showStartScreen();
 
-document.getElementById("winHomeButton")
-.addEventListener("click", () => {
+        }
+    );
 
-    winVideo.pause();
-    showStartScreen();
-});
 
-/* =========================
-   DIBUJAR TEXTO EMOJI
-========================= */
+document
+    .getElementById("winHomeButton")
+    .addEventListener(
+        "click",
+        () => {
 
-function drawEmoji(emoji, x, y, size) {
+            winVideo.pause();
 
-    ctx.font = size + "px Arial";
-    ctx.textAlign = "center";
-    ctx.textBaseline = "middle";
+            winVideo.currentTime = 0;
 
-    ctx.fillText(emoji, x, y);
+            showStartScreen();
+
+        }
+    );
+
+
+/* =====================================================
+   DIBUJAR EMOJI
+===================================================== */
+
+function drawEmoji(
+    emoji,
+    x,
+    y,
+    size
+) {
+
+    ctx.font =
+        size + "px Arial";
+
+    ctx.textAlign =
+        "center";
+
+    ctx.textBaseline =
+        "middle";
+
+    ctx.fillText(
+        emoji,
+        x,
+        y
+    );
+
 }
 
-/* =========================
+
+/* =====================================================
    DIBUJAR FONDO
-========================= */
+===================================================== */
 
 function drawBackground() {
-    let bgImage = currentLevel < 5 ? bgFondo : bgNoche;
 
-    if (bgImage.complete && bgImage.naturalHeight !== 0) {
-        ctx.drawImage(bgImage, 0, 0, WIDTH, HEIGHT);
+    let bgImage =
+        currentLevel < 5
+            ? bgFondo
+            : bgNoche;
+
+
+    if (
+        bgImage.complete &&
+        bgImage.naturalHeight !== 0
+    ) {
+
+        ctx.drawImage(
+            bgImage,
+            0,
+            0,
+            WIDTH,
+            HEIGHT
+        );
+
     } else {
-        const gradient = ctx.createLinearGradient(0, 0, 0, HEIGHT);
-        gradient.addColorStop(0, currentLevel < 5 ? "#75cfff" : "#111424");
-        gradient.addColorStop(1, currentLevel < 5 ? "#dff8ff" : "#2a324d");
-        ctx.fillStyle = gradient;
-        ctx.fillRect(0, 0, WIDTH, HEIGHT);
+
+        const gradient =
+            ctx.createLinearGradient(
+                0,
+                0,
+                0,
+                HEIGHT
+            );
+
+
+        gradient.addColorStop(
+            0,
+            currentLevel < 5
+                ? "#75cfff"
+                : "#111424"
+        );
+
+
+        gradient.addColorStop(
+            1,
+            currentLevel < 5
+                ? "#dff8ff"
+                : "#2a324d"
+        );
+
+
+        ctx.fillStyle =
+            gradient;
+
+
+        ctx.fillRect(
+            0,
+            0,
+            WIDTH,
+            HEIGHT
+        );
+
     }
+
 }
 
-/* =========================
+
+/* =====================================================
    DIBUJAR PLATAFORMAS
-========================= */
+===================================================== */
 
 function drawPlatforms() {
 
-    for (const p of platforms) {
+    for (
+        const p of platforms
+    ) {
 
-        ctx.fillStyle = "#F50303";
+        ctx.fillStyle =
+            "#F50303";
+
 
         ctx.fillRect(
             p.x,
@@ -1034,7 +2478,10 @@ function drawPlatforms() {
             p.h
         );
 
-        ctx.fillStyle = "#0B5394";
+
+        ctx.fillStyle =
+            "#0B5394";
+
 
         ctx.fillRect(
             p.x,
@@ -1042,28 +2489,49 @@ function drawPlatforms() {
             p.w,
             6
         );
+
     }
+
 }
 
-/* =========================
+
+/* =====================================================
    DIBUJAR BALAS
-========================= */
+===================================================== */
 
 function drawBullets() {
-    for (let b of bullets) {
-        drawEmoji("🍊", b.x + b.width / 2, b.y + b.height / 2, 25);
+
+    for (
+        let b of bullets
+    ) {
+
+        drawEmoji(
+            "🍊",
+            b.x +
+                b.width / 2,
+            b.y +
+                b.height / 2,
+            25
+        );
+
     }
+
 }
 
-/* =========================
+
+/* =====================================================
    DIBUJAR ARROZ
-========================= */
+===================================================== */
 
 function drawRice() {
 
-    for (const item of riceItems) {
+    for (
+        const item of riceItems
+    ) {
 
-        if (!item.collected) {
+        if (
+            !item.collected
+        ) {
 
             drawEmoji(
                 "🍚",
@@ -1071,19 +2539,58 @@ function drawRice() {
                 item.y,
                 30
             );
+
         }
+
     }
+
 }
 
-/* =========================
-   DIBUJAR ZANAHORIAS
-========================= */
+
+/* =====================================================
+   DIBUJAR ZANAHORIAS PNG
+===================================================== */
 
 function drawCarrots() {
 
-    for (const item of carrotItems) {
+    for (
+        const item of carrotItems
+    ) {
 
-        if (!item.collected) {
+        if (
+            item.collected
+        ) {
+
+            continue;
+
+        }
+
+
+        if (
+            carrotImage.complete &&
+            carrotImage.naturalWidth > 0
+        ) {
+
+            ctx.drawImage(
+
+                carrotImage,
+
+                item.x - 18,
+
+                item.y - 18,
+
+                36,
+
+                36
+
+            );
+
+        } else {
+
+            /*
+                Respaldo por si la imagen
+                todavía no ha cargado.
+            */
 
             drawEmoji(
                 "🥕",
@@ -1091,52 +2598,121 @@ function drawCarrots() {
                 item.y,
                 32
             );
+
         }
+
     }
+
 }
 
-/* =========================
-   DIBUJAR ENEMIGOS
-========================= */
+
+/* =====================================================
+   DIBUJAR ENEMIGOS PNG
+===================================================== */
 
 function drawEnemies() {
 
-    for (const enemy of enemies) {
+    for (
+        const enemy of enemies
+    ) {
 
-        if (enemy.x > -100) {
+        if (
+            enemy.x <= -100
+        ) {
+
+            continue;
+
+        }
+
+
+        if (
+            bathtubImage.complete &&
+            bathtubImage.naturalWidth > 0
+        ) {
+
+            ctx.drawImage(
+
+                bathtubImage,
+
+                enemy.x,
+
+                enemy.y,
+
+                enemy.w,
+
+                enemy.h
+
+            );
+
+        } else {
+
+            /*
+                Respaldo mientras carga
+                la imagen.
+            */
 
             drawEmoji(
+
                 "🛁",
-                enemy.x + enemy.w / 2,
-                enemy.y + enemy.h / 2,
+
+                enemy.x +
+                    enemy.w / 2,
+
+                enemy.y +
+                    enemy.h / 2,
+
                 40
+
             );
+
         }
+
     }
+
 }
 
-/* =========================
+
+/* =====================================================
    DIBUJAR JUGADOR
-========================= */
+===================================================== */
 
 function drawPlayer() {
 
-    if (!selectedCharacter) return;
+    if (
+        !selectedCharacter
+    ) {
+
+        return;
+
+    }
+
 
     const emoji =
-        characters[selectedCharacter];
+        characters[
+            selectedCharacter
+        ];
+
 
     drawEmoji(
+
         emoji,
-        player.x + player.width / 2,
-        player.y + player.height / 2,
+
+        player.x +
+            player.width / 2,
+
+        player.y +
+            player.height / 2,
+
         43
+
     );
+
 }
 
-/* =========================
+
+/* =====================================================
    DIBUJAR BANCO
-========================= */
+===================================================== */
 
 function drawBank() {
 
@@ -1146,54 +2722,81 @@ function drawBank() {
         55,
         35
     );
+
 }
 
-/* =========================
+
+/* =====================================================
    DIBUJAR TODO
-========================= */
+===================================================== */
 
 function draw() {
 
     drawBackground();
+
     drawPlatforms();
+
     drawRice();
+
     drawCarrots();
+
     drawEnemies();
-    drawBullets(); 
+
+    drawBullets();
+
     drawPlayer();
+
     drawBank();
+
 }
 
-/* =========================
+
+/* =====================================================
    GAME LOOP
-========================= */
+===================================================== */
 
 function gameLoop() {
 
-    if (gameRunning) {
+    if (
+        gameRunning
+    ) {
 
         updatePlayer();
-        updateBullets(); 
+
+        updateBullets();
+
         updateEnemies();
+
         updateRice();
+
         updateCarrots();
+
         checkLevelComplete();
 
         draw();
+
     } else {
 
         draw();
+
     }
 
-    requestAnimationFrame(gameLoop);
+
+    requestAnimationFrame(
+        gameLoop
+    );
+
 }
 
-/* =========================
+
+/* =====================================================
    INICIAR
-========================= */
+===================================================== */
 
 loadLevel(0);
+
 draw();
+
 gameLoop();
 
 </script>
